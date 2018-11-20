@@ -1,0 +1,8 @@
+lua_modules
+.buildpath
+.project
+.settings/
+commands.txt
+.idea
+README.md
+kong-plugin-tasty.iml
