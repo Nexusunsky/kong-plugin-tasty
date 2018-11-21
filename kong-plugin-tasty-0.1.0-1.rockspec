@@ -28,7 +28,7 @@ build = {
   type = "builtin",
   modules = {
     ["kong.plugins."..pluginName..".handler"] = "kong/plugins/"..pluginName.."/handler.lua",
-    ["kong.plugins."..pluginName..".handler"] = "kong/plugins/"..pluginName.."/access.lua",
-    ["kong.plugins."..pluginName..".handler"] = "kong/plugins/"..pluginName.."/schema.lua",
+    ["kong.plugins."..pluginName..".access"] = "kong/plugins/"..pluginName.."/access.lua",
+    ["kong.plugins."..pluginName..".schema"] = "kong/plugins/"..pluginName.."/schema.lua",
   }
 }
