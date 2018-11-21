@@ -23,7 +23,7 @@ return {
       ]]
     fields = {
         -- Describe your plugin's configuration's schema here.
-        insert_header = { type = "boolean", default = true },
+        insert_header = { type = "boolean", default = true, required = true },
         environment = { type = "string", required = false, enum = { "prod", "dev" } },
         server = {
             type = "table",
