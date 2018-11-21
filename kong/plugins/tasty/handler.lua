@@ -45,10 +45,10 @@ function TastyHandler:access(config)
     -- Executed for every request from a client and before it is being proxied to the upstream service.
     TastyHandler.super.access(self)
 
-    --kong.log.inspect(config.insert_header)
-    --kong.log.inspect(config.environment) -- "development"
-    --kong.log.inspect(config.server.host) -- "http://localhost"
-    --kong.log.inspect(config.server.port) -- 8080
+    kong.log.inspect(config.insert_header)
+    kong.log.inspect(config.environment) -- "development"
+    kong.log.inspect(config.server.host) -- "http://localhost"
+    kong.log.inspect(config.server.port) -- 8080
 
     access.execute(config)
 

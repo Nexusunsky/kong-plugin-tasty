@@ -1,0 +1,84 @@
+
+1,Docker install Kong and DB
+
+    docker network create kong-net
+
+    docker run -d --name kong-database \
+               --network=kong-net \
+               -p 5432:5432 \
+               -e "POSTGRES_USER=kong" \
+               -e "POSTGRES_DB=kong" \
+               postgres:9.6
+
+    docker run --rm \
+     --network=kong-net \
+     -e "KONG_DATABASE=postgres" \
+     -e "KONG_PG_HOST=kong-database" \
+     -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+     kong:latest kong migrations up
+
+
+    docker run -d --name kong \
+     --network=kong-net \
+     -e "KONG_DATABASE=postgres" \
+     -e "KONG_PG_HOST=kong-database" \
+     -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+     -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+     -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+     -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+     -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+     -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+     -p 8000:8000 \
+     -p 8443:8443 \
+     -p 8001:8001 \
+     -p 8444:8444 \
+     kong:latest
+
+2,Install Plugin
+
+    luarocks make
+    luarocks pack kong-plugin-tasty 0.1.0-1
+
+    docker exec -it <container-id> sh
+    apk update && \
+        apk upgrade && \
+        apk add git \
+        apk add make
+
+    git clone https://github.com/Nexusunsky/kong-plugin-tasty.git
+
+        luarocks install kong-plugin-tasty-0.1.0-1.all.rock
+
+    OR :
+
+        cd kong-plugin-tasty
+        export KONG_LOG_LEVEL=debug
+        export KONG_CUSTOM_PLUGINS="tasty"
+        export KONG_LUA_PACKAGE_PATH="/kong-plugin-tasty/lua_modules/share/lua/5.1/kong/plugins/tasty/?.lua;;"
+
+        luarocks make
+        make install-dev
+        kong reload -vv
+
+
+3,Test of Service
+
+    curl -i -X POST http://localhost:8001/services/ \
+    -d 'name=tasty-example' \
+    -d 'url=https://github.com/'
+
+
+    curl -i -X POST http://localhost:8001/services/tasty-example/plugins \
+    -d 'name=tasty' \
+
+
+    curl -i -X POST http://localhost:8001/routes/ \
+    -d 'hosts[]=example.com' \
+    -d 'paths[]=/foo' \
+    -d 'service.id=f8304bc2-cf1a-473b-8e38-f89b6e7d0d82'
+
+
+    curl -i -X GET http://localhost:8000/foo \
+    -h 'Host=example.com' \
+
+    curl -i -X GET http://localhost:8000/foo -H"Host:example.com"
