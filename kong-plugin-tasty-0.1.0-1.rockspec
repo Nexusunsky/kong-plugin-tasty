@@ -19,7 +19,7 @@ description = {
 }
 
 dependencies = {
-  "lua ~> 5.3"
+  "lua >= 5.1"
 }
 
 local pluginName = package:match("^kong%-plugin%-(.+)$")  -- "tasty"
