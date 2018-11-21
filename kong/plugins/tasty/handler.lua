@@ -5,7 +5,7 @@
 local BasePlugin = require "kong.plugins.base_plugin"
 
 -- The actual logic is implemented in those modules
-local access = require "kong.plugins.plugin-tasty.access"
+local access = require "kong.plugins.tasty.access"
 
 local TastyHandler = BasePlugin:extend()
 
