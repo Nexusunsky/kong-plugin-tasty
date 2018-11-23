@@ -83,3 +83,25 @@
     -h 'Host=example.com' \
 
     curl -i -X GET http://localhost:8000/foo -H"Host:example.com"
+
+4, Setup Env:
+pip install hererocks
+
+# With Lua
+LUA="lua=5.3"
+hererocks env --$LUA -rlatest
+
+# With Luajit
+LUAJIT="luajit=2.0.5"
+hererocks env --$LUAJIT -rlatest --show
+
+hererocks env -jlatest -rlatest --show
+
+source ./env/bin/activate
+
+luarocks install luacrypto OPENSSL_DIR=/usr/local/opt/openssl
+luarocks install lua-cjson
+luarocks install lbase64
+luarocks install busted
+luarocks install kong OPENSSL_DIR=/usr/local/opt/openssl CRYPTO_INCDIR=/usr/local/opt/openssl/include/
+

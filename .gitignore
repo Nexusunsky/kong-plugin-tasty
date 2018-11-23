@@ -6,3 +6,4 @@ commands.txt
 .idea
 README.md
 kong-plugin-tasty.iml
+/env
