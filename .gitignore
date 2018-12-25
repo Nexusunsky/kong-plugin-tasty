@@ -7,3 +7,9 @@ commands.txt
 README.md
 kong-plugin-tasty.iml
 /env
+logs
+client_body_temp
+fastcgi_temp
+proxy_temp
+scgi_temp
+uwsgi_temp

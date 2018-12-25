@@ -72,6 +72,16 @@
     -d 'name=tasty' \
     -d 'config.' \
 
+    curl -i -X POST https://apidev.thoughtworks.net/admin-api/plugins?apikey=WyY01bKJ1A1GcSuEdlPhsLB7ARKYCZQM \
+    -d 'name=authz'
+    -d 'config.insert_header=true'
+
+    curl -i \
+      --header "Content-Type: application/json;charset=UTF-8" \
+      --request DELETE \
+      https://apidev.thoughtworks.net/admin-api/plugins/ ?apikey=WyY01bKJ1A1GcSuEdlPhsLB7ARKYCZQM
+
+
 
     curl -i -X POST http://localhost:8001/routes/ \
     -d 'hosts[]=example.com' \

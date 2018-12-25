@@ -15,6 +15,7 @@ DEV_ROCKS=(
 "lua-llthreads2"
 "lua-cjson"
 "lbase64"
+"lapis"
 "kong"
 )
 
